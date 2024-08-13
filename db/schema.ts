@@ -68,7 +68,7 @@ export const challenges = pgTable("challenges", {
     })
     .notNull(),
   type: challengesEnum("type").notNull(),
-  text: text("text").notNull(),
+  question: text("text").notNull(),
   order: integer("order").notNull(),
 });
 

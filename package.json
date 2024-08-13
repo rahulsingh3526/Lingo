@@ -9,7 +9,7 @@
     "lint": "next lint",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
-    "db:seed": "tsx ./scripts/migrate.ts"
+    "db:seed": "tsx ./scripts/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.5",
