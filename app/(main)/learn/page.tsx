@@ -19,6 +19,9 @@ const LearnPage = async () => {
   if (!userProgress || !userProgress.activeCourse) {
     redirect("/courses");
   }
+
+  console.log("User Progress:", userProgress);
+  console.log("Units:", units);
   return (
     <div className="flex flex-row-reverse gap-[48px] px-6">
       <StickyWrapper>

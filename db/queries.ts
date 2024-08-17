@@ -3,6 +3,7 @@ import db from "@/db/drizzle";
 import { auth } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
 import { courses, userProgress, units, challengesProgress } from "./schema";
+import { equal } from "assert";
 
 export const getUserProgress = cache(async () => {
   const { userId } = await auth();
@@ -59,7 +60,7 @@ export const getUnits = cache(async () => {
     });
     return { ...unit, lessons: lessonsWithCompletedStatus };
   });
-
+  console.log("Normalized data:", normalizedData);
   return normalizedData;
 });
 
@@ -74,4 +75,33 @@ export const getCourseById = cache(async (courseId: number) => {
     where: eq(courses.id, courseId),
   });
   return data;
+});
+
+export const getCourseProgress = cache(async () => {
+  const { userId } = await auth();
+  const userProgress = await getUserProgress();
+
+  if (!userId || !userProgress?.activeCourseId) {
+    return null;
+  }
+
+  const unitsInActiveCourse = await db.query.units.findMany({
+    orderBy: (units, { asc }) => [asc(units.order)],
+    where: eq(units.courseId, userProgress.activeCourseId),
+    with: {
+      lessons: {
+        orderBy: (lessons, { asc }) => [asc(lessons.order)],
+        with: {
+          unit: true,
+          challenges: {
+            with: {
+              challengesProgress: {
+                where: eq(challengesProgress.userId, userId),
+              },
+            },
+          },
+        },
+      },
+    },
+  });
 });
