@@ -35,6 +35,8 @@ export const Quiz = ({
 
   const challenge = challenges[activeIndex];
 
+  const options = challenge?.challengeOptions ?? [];
+
   const title =
     challenge.type === "ASSITS"
       ? "Select the correct meaning"
