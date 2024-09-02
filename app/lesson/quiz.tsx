@@ -1,4 +1,5 @@
 "use client";
+import { toast } from "sonner";
 
 import { challengeOptions, challenges } from "@/db/schema";
 import { useState, useTransition } from "react";
@@ -7,6 +8,8 @@ import { QuestionBubble } from "./question-bubble";
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
+import { reduceHearts } from "@/actions/user-progress";
+import { useAudio } from "react-use";
 
 type Props = {
   initialPercentage: number;
@@ -26,6 +29,10 @@ export const Quiz = ({
   initialLessonId,
   userSubscription,
 }: Props) => {
+  const [correctAudio, _c, correctControls] = useAudio({ src: "/correct.wav" });
+  const [incorrectAudio, _i, incorrectControls] = useAudio({
+    src: "/incorrect.wav",
+  });
   const [pending, startTransition] = useTransition();
   const [hearts, setHearts] = useState(50 || initialHearts);
   const [percentage, setPercentage] = useState(initialPercentage);
@@ -38,7 +45,7 @@ export const Quiz = ({
   });
 
   const [selectedOption, setSelectedOption] = useState<number>();
-  const [status, setStatus] = useState<"correct" | "wrong" | "none">("correct");
+  const [status, setStatus] = useState<"correct" | "wrong" | "none">("none");
   const challenge = challenges[activeIndex];
 
   const options = challenge?.challengeOptions ?? [];
@@ -73,15 +80,38 @@ export const Quiz = ({
     }
     if (correctOption && correctOption.id === selectedOption) {
       startTransition(() => {
-        upsertChallengeProgress(challenge.id).then((response) => {
-          if (response?.error === "hearts") {
-            console.error("Missing hearts");
-            return;
-          }
-        });
+        upsertChallengeProgress(challenge.id)
+          .then((response) => {
+            if (response?.error === "hearts") {
+              console.error("Missing hearts");
+              return;
+            }
+            correctControls.play();
+            setStatus("correct");
+            setPercentage((prev) => prev + 100 / challenges.length);
+
+            if (initialPercentage === 100) {
+              setHearts((prev) => Math.min(prev + 1, 5));
+            }
+          })
+          .catch(() => toast.error("Something went wrong.Please try again"));
       });
     } else {
-      console.log("Incorrect option!");
+      startTransition(() => {
+        reduceHearts(challenge.id)
+          .then((response) => {
+            if (response?.error === "hearts") {
+              console.error("Missing hearts");
+              return;
+            }
+            incorrectControls.play();
+            setStatus("wrong");
+            if (!response?.error) {
+              setHearts((prev) => Math.max(prev - 1, 0));
+            }
+          })
+          .catch(() => toast.error("Something went wrong.Please try again."));
+      });
     }
   };
   const title =
@@ -91,6 +121,8 @@ export const Quiz = ({
 
   return (
     <>
+      {incorrectAudio}
+      {correctAudio}
       <Header
         hearts={hearts}
         percentage={percentage}
