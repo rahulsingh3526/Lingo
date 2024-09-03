@@ -56,6 +56,20 @@ const main = async () => {
         order: 1,
         question: 'Which of these is the "the man"?',
       },
+      {
+        id: 2,
+        lessonId: 1,
+        type: "ASSITS",
+        order: 2,
+        question: `"the man"`,
+      },
+      {
+        id: 3,
+        lessonId: 1, // Nouns
+        type: "SELECT",
+        order: 3,
+        question: 'Which one of these is the "the robot"?',
+      },
     ]);
 
     await db.insert(schema.challengeOptions).values([
@@ -84,6 +98,56 @@ const main = async () => {
         audioSrc: "/es_robot.mp3",
       },
     ]);
+    await db.insert(schema.challengeOptions).values([
+      {
+        id: 4,
+        challengeId: 2, // which one of these is answering to "the man"
+        correct: true,
+        text: "el hombre",
+        audioSrc: "/es_man.mp3",
+      },
+      {
+        id: 5,
+        challengeId: 2, // which one of these is answering to "the man"
+        correct: false,
+        text: "la mujer",
+        audioSrc: "/es_woman.mp3",
+      },
+      {
+        id: 6,
+        challengeId: 2, // which one of these is answering to "the man"
+        correct: false,
+        text: "el robot",
+        audioSrc: "/es_robot.mp3",
+      },
+    ]);
+    await db.insert(schema.challengeOptions).values([
+      {
+        id: 7,
+        challengeId: 3, // which one of these is answering to "the man"
+        imageSrc: "/man.svg",
+        correct: false,
+        text: "el hombre",
+        audioSrc: "/es_man.mp3",
+      },
+      {
+        id: 8,
+        challengeId: 3, // which one of these is answering to "the man"
+        imageSrc: "/woman.svg",
+        correct: false,
+        text: "la mujer",
+        audioSrc: "/es_woman.mp3",
+      },
+      {
+        id: 9,
+        challengeId: 3, // which one of these is answering to "the man"
+        imageSrc: "/robot.svg",
+        correct: true,
+        text: "el robot",
+        audioSrc: "/es_robot.mp3",
+      },
+    ]);
+
     console.log("Seeding completed");
   } catch (error) {
     console.error("Error during migration:", error);
