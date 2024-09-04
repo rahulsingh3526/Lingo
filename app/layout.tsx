@@ -12,6 +12,8 @@ import {
   UserButton,
 } from "@clerk/nextjs";
 import { ExitModal } from "@/components/modals/exit-modal";
+import { HeartsModal } from "@/components/modals/hearts-modal";
+import { PracticeModal } from "@/components/modals/practice-modal";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,7 +30,9 @@ export default function RootLayout({
       <html lang="en">
         <body className={font.className}>
           <Toaster />
+          <HeartsModal />
           <ExitModal />
+          <PracticeModal />
           {children}
         </body>
       </html>
