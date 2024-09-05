@@ -1,7 +1,7 @@
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
-import { getUserProgress } from "@/db/queries";
+import { getUserProgress, getUserSubscription } from "@/db/queries";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import React from "react";
@@ -9,8 +9,13 @@ import { Items } from "./items";
 
 const ShopPage = async () => {
   const userProgressData = getUserProgress();
+  const userSubscriptionData = getUserSubscription();
 
-  const [userProgress] = await Promise.all([userProgressData]);
+  const [userProgress, userSubscription] = await Promise.all([
+    userProgressData,
+    userSubscriptionData,
+  ]);
+  const isPro = !!userSubscription?.isActive;
 
   if (!userProgress || !userProgress.activeCourse) {
     redirect("/courses");
@@ -22,7 +27,7 @@ const ShopPage = async () => {
           activeCourses={userProgress.activeCourse}
           hearts={userProgress.hearts}
           points={userProgress.points}
-          hasActiveSubscription={false}
+          hasActiveSubscription={isPro}
         />
       </StickyWrapper>
       <FeedWrapper>
@@ -37,7 +42,7 @@ const ShopPage = async () => {
           <Items
             hearts={userProgress.hearts}
             points={userProgress.points}
-            hasActiveSubscription={false}
+            hasActiveSubscription={isPro}
           />
         </div>
       </FeedWrapper>
