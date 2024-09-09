@@ -93,6 +93,7 @@ export const Quiz = ({
 
     if (status === "correct") {
       onNext();
+      setStatus("none");
       setSelectedOption(undefined);
       return;
     }
@@ -176,7 +177,11 @@ export const Quiz = ({
             <ResultCard variant="hearts" value={hearts} />
           </div>
         </div>
-        <Footer lessonId={lessonId} status="completed" onCheck={onContinue} />
+        <Footer
+          lessonId={lessonId}
+          status="completed"
+          onCheck={() => router.push("/learn")}
+        />
       </>
     );
   }
@@ -194,8 +199,8 @@ export const Quiz = ({
         percentage={percentage}
         hasActiveSubscription={!!userSubscription?.isActive}
       />
-      <div className="flex-1">
-        <div className="h-full flex items-center justify-center">
+      <div className="flex-1 pb-16">
+        <div className="h-full flex items-center justify-center pb-4">
           <div className="lg:min-h-[350px] lg:w-[600px] w-full px-6 lg:px-0 flex flex-col gap-y-12">
             <h1
               className="text-lg lg:text-3xl text-center lg:text-start

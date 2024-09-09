@@ -38,7 +38,7 @@ export const Items = ({ hearts, points, hasActiveSubscription }: Props) => {
   return (
     <ul className="w-full">
       <div className="flex items-center w-full p-4 gap-x-4 border-t-2">
-        <Image src="/hearts.svg" alt="Heart" height={60} width={60} />
+        <Image src="/heart.svg" alt="Heart" height={60} width={60} />
         <div className="flex-1">
           <p className="text-neutral-700 text-base lg:text-xl font-bold">
             Refill hearts
