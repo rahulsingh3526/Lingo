@@ -5,12 +5,15 @@ import {
   TextInput,
   ReferenceInput,
   NumberInput,
+  Edit,
 } from "react-admin";
 
-export const UnitCreate = () => {
+export const LessonEdit = () => {
   return (
-    <Create>
+    <Edit>
       <SimpleForm>
+        <NumberInput source="id" validate={[required()]} label="Id" />
+
         <TextInput source="title" validate={[required()]} label="Title" />
         <TextInput
           source="description"
@@ -20,6 +23,6 @@ export const UnitCreate = () => {
         <ReferenceInput source="courseId" reference="courses" />
         <NumberInput source="order" validate={[required()]} label="Order" />
       </SimpleForm>
-    </Create>
+    </Edit>
   );
 };
