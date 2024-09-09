@@ -8,7 +8,7 @@ import {
   Edit,
 } from "react-admin";
 
-export const LessonEdit = () => {
+export const ChallengeEdit = () => {
   return (
     <Edit>
       <SimpleForm>

@@ -3,6 +3,7 @@ import {
   List,
   NumberField,
   ReferenceField,
+  required,
   SelectField,
   TextField,
 } from "react-admin";
@@ -17,7 +18,7 @@ export const ChallengeList = () => {
           source="type"
           choices={[
             { id: "SELECT", name: "SELECT" },
-            { id: "ASSITS", name: "ASSITS" },
+            { id: "ASSIST", name: "ASSIST" },
           ]}
         />
         <TextField source="imageSrc" />;
