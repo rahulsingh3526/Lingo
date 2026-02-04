@@ -9,9 +9,9 @@
     "lint": "next lint",
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate",
-    "db:seed": "tsx ./scripts/seed.ts", 
-     "db:reset": "tsx ./scripts/reset.ts",
-      "db:prod": "tsx ./scripts/prod.ts"
+    "db:seed": "tsx ./scripts/seed.ts",
+    "db:reset": "tsx ./scripts/reset.ts",
+    "db:prod": "tsx ./scripts/prod.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.5",
@@ -26,7 +26,7 @@
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.31.2",
     "lucide-react": "^0.383.0",
-    "next": "14.2.3",
+    "next": "14.2.35",
     "next-themes": "^0.3.0",
     "ra-data-simple-rest": "^5.1.4",
     "react": "^18.3.1",
